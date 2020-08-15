@@ -326,16 +326,12 @@ const getResource = async (url) => {
         } else {
             offsetSlide += +width.slice(0, width.length - 2);
         }
-        //slidesInner.style.transform = `translateX(-${offsetSlide}px)`;
-        
         if(indexSlide == slides.length) {
             indexSlide = 1;
         } else {
             indexSlide++;
         }
-
         showSlideIndicators(indexSlide, offsetSlide);
-
     });
 
 
@@ -345,14 +341,11 @@ const getResource = async (url) => {
         } else {
             offsetSlide -= +width.slice(0, width.length - 2);
         }
-       // slidesInner.style.transform = `translateX(-${offsetSlide}px)`;
-
         if(indexSlide == 1) {
             indexSlide = slides.length;
         } else {
             indexSlide--;
         }
-
         showSlideIndicators(indexSlide, offsetSlide);
     });
     
@@ -361,22 +354,17 @@ const getResource = async (url) => {
             const slideTo = e.target.getAttribute('data-dot-to');
             indexSlide = slideTo;
             offsetSlide = +width.slice(0, width.length - 2) * (slideTo - 1);
-            
-            
             showSlideIndicators(indexSlide, offsetSlide);
-
         })
     })
     
     function showSlideIndicators(indexSlide, offsetSlide) {
         slidesInner.style.transform = `translateX(-${offsetSlide}px)`;
-
         if(slides.length < 10) {
             currentSlide.textContent = `0${indexSlide}`;
         } else {
             currentSlide.textContent = indexSlide;
         }
-
         dots.forEach(dot => dot.style.opacity = '0.5');
         dots[indexSlide - 1].style.opacity = '1';
     }
