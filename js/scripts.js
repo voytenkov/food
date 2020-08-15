@@ -282,4 +282,148 @@ const getResource = async (url) => {
 
    
 
+    //Slider
+    const prevSlide = document.querySelector('.offer__slider-prev'),
+        slider = document.querySelector('.offer__slider'),
+        nextSlide = document.querySelector('.offer__slider-next'),
+        slides = document.querySelectorAll('.offer__slide'),
+        totalSlides = document.querySelector('#total'),
+        currentSlide = document.querySelector('#current'),
+        slidesWrapper = document.querySelector('.offer__slider-wrapper'),
+        slidesInner = document.querySelector('.offer__slider-inner'),
+        width = window.getComputedStyle(slidesWrapper).width;
+    let indexSlide = 1;
+    let offsetSlide = 0;
+
+    slidesInner.style.width = 100 * slides.length + '%';
+
+    const indicators = document.createElement('ol'),
+          dots = [];
+    indicators.classList.add('carousel-indicators');
+    slider.append(indicators);
+
+    for(let i=0; i < slides.length; i++) {
+        const dot = document.createElement('li')
+        dot.classList.add('dot');
+        dot.setAttribute('data-dot-to', i+1);
+        dots.push(dot);
+        indicators.append(dot);
+        if(i == 0) {
+            dot.style.opacity = '1';
+        }
+    }
+
+    if(slides.length < 10) {
+        totalSlides.textContent = `0${slides.length}`;
+        currentSlide.textContent = `0${indexSlide}`;
+    } else {
+        totalSlides.textContent = slides.length;  
+    }
+
+    nextSlide.addEventListener('click' , () => {
+        if(offsetSlide == +width.slice(0, width.length - 2) * (slides.length - 1)) {
+            offsetSlide = 0;
+        } else {
+            offsetSlide += +width.slice(0, width.length - 2);
+        }
+        //slidesInner.style.transform = `translateX(-${offsetSlide}px)`;
+        
+        if(indexSlide == slides.length) {
+            indexSlide = 1;
+        } else {
+            indexSlide++;
+        }
+
+        showSlideIndicators(indexSlide, offsetSlide);
+
+    });
+
+
+    prevSlide.addEventListener('click' , () => {
+        if(offsetSlide == 0) {
+            offsetSlide = +width.slice(0, width.length - 2) * (slides.length - 1);
+        } else {
+            offsetSlide -= +width.slice(0, width.length - 2);
+        }
+       // slidesInner.style.transform = `translateX(-${offsetSlide}px)`;
+
+        if(indexSlide == 1) {
+            indexSlide = slides.length;
+        } else {
+            indexSlide--;
+        }
+
+        showSlideIndicators(indexSlide, offsetSlide);
+    });
+    
+    dots.forEach(dot => {
+        dot.addEventListener('click', (e) => {
+            const slideTo = e.target.getAttribute('data-dot-to');
+            indexSlide = slideTo;
+            offsetSlide = +width.slice(0, width.length - 2) * (slideTo - 1);
+            
+            
+            showSlideIndicators(indexSlide, offsetSlide);
+
+        })
+    })
+    
+    function showSlideIndicators(indexSlide, offsetSlide) {
+        slidesInner.style.transform = `translateX(-${offsetSlide}px)`;
+
+        if(slides.length < 10) {
+            currentSlide.textContent = `0${indexSlide}`;
+        } else {
+            currentSlide.textContent = indexSlide;
+        }
+
+        dots.forEach(dot => dot.style.opacity = '0.5');
+        dots[indexSlide - 1].style.opacity = '1';
+    }
+
+
+
+
+    
+    // showSlide(indexSlide);
+
+    // function showSlide(n) {
+    //     if(n > slides.length) {
+    //         indexSlide = 1
+    //     }
+    //     if(n < 1) {
+    //         indexSlide = slides.length;
+    //     }
+        
+    //     // slides.forEach(slide => slide.classList.add('hide'));
+    //     // slides[indexSlide - 1].classList.toggle('hide');
+
+    //     if(slides.length < 10) {
+    //         currentSlide.textContent = `0${indexSlide}`;
+    //     } else {
+    //         currentSlide.textContent = indexSlide;
+    //     }
+        
+    // }
+
+    // function changeSlides(n) {
+    //     showSlide(indexSlide += n);
+    // }
+
+    // prevSlide.addEventListener('click' , function(){
+    //     changeSlides(-1);
+    // });
+    // nextSlide.addEventListener('click' , function(){
+    //     changeSlides(1);
+    // });
+
+    // prevSlide.addEventListener('click' , function(){
+    //     changeSlides(-1);
+    //     });
+    // nextSlide.addEventListener('click' , function(){
+    //     changeSlides(1);
+    // });
+
+    
+
 });
