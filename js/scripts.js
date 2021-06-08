@@ -130,7 +130,7 @@ document.addEventListener('keydown', (e) => {
     }
 });
 
-//const modalTimer = setTimeout(openModal, 6000); 
+const modalTimer = setTimeout(openModal, 6000); 
 
 function openModalByScroll() {
     if(window.pageYOffset + document.documentElement.clientHeight >= document.documentElement.scrollHeight) {
